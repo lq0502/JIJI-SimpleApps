@@ -1,19 +1,19 @@
 import java.sql.*;
+import java.util.logging.*;
 
 public class DatabaseManager {
+    private static final Logger logger = Logger.getLogger(CartManager.class.getName());
     private Connection connection;
 
     public DatabaseManager() {
         try {
-            // 创建与SQLite数据库的连接
             connection = DriverManager.getConnection("jdbc:sqlite:shopping_cart.db");
-            createOrdersTable(); // 创建订单表
+            createOrdersTable();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to add book", e);
         }
     }
 
-    // 创建订单表，存储订单ID、商品列表和总价
     private void createOrdersTable() {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS orders ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -22,11 +22,10 @@ public class DatabaseManager {
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSQL);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to add book", e);
         }
     }
 
-    // 将订单保存到数据库
     public void saveOrder(String items, double totalPrice) {
         String insertOrderSQL = "INSERT INTO orders(items, total_price) VALUES(?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(insertOrderSQL)) {
@@ -34,11 +33,10 @@ public class DatabaseManager {
             pstmt.setDouble(2, totalPrice);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to add book", e);
         }
     }
 
-    // 查看订单历史
     public String viewOrderHistory() {
         StringBuilder history = new StringBuilder();
         String selectOrdersSQL = "SELECT * FROM orders";
@@ -49,12 +47,12 @@ public class DatabaseManager {
                 int id = rs.getInt("id");
                 String items = rs.getString("items");
                 double totalPrice = rs.getDouble("total_price");
-                history.append("Order ID: ").append(id)
-                        .append(", Items: ").append(items)
-                        .append(", Total Price: $").append(totalPrice).append("\n");
+                history.append("注文ID: ").append(id)
+                        .append(", 商品: ").append(items)
+                        .append(", 合計金額: ¥").append(totalPrice).append("\n");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to add book", e);
         }
         return history.toString();
     }

@@ -1,8 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CartManager {
-    private List<Product> cart;
+    private final List<Product> cart;
 
     public CartManager() {
         cart = new ArrayList<>();
@@ -15,12 +14,12 @@ public class CartManager {
 
     public String viewCart() {
         if (cart.isEmpty()) {
-            return "Cart is empty!";
+            return "カートは空です！";
         }
 
         StringBuilder cartDetails = new StringBuilder();
         for (Product product : cart) {
-            cartDetails.append(product.getName()).append(" - $").append(product.getPrice()).append("\n");
+            cartDetails.append(product.getName()).append(" - ¥").append(product.getPrice()).append("\n");
         }
         return cartDetails.toString();
     }

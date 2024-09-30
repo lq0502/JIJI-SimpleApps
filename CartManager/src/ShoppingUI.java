@@ -1,78 +1,59 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ShoppingUI {
-    private JFrame frame;
-    private CartManager cartManager;
-    private DatabaseManager databaseManager;
+    private final JFrame frame;
+    private final CartManager cartManager;
+    private final DatabaseManager databaseManager;
 
     public ShoppingUI() {
-        cartManager = new CartManager(); // 初始化购物车管理器
-        databaseManager = new DatabaseManager(); // 初始化数据库管理器
-        frame = new JFrame("Simple Shopping Cart");
+        cartManager = new CartManager();
+        databaseManager = new DatabaseManager();
+        frame = new JFrame("簡単なショッピングカート");
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
-        // 商品标签和按钮
-        JLabel label = new JLabel("Available Products:");
+        JLabel label = new JLabel("利用可能な商品:");
         label.setBounds(20, 20, 200, 20);
         frame.add(label);
 
-        JButton addButton = new JButton("Add Product 1 (Price: 10)");
+        JButton addButton = new JButton("商品1を追加 (価格: 10)");
         addButton.setBounds(20, 60, 200, 30);
         frame.add(addButton);
 
-        JButton cartButton = new JButton("View Cart");
+        JButton cartButton = new JButton("カートを見る");
         cartButton.setBounds(20, 100, 200, 30);
         frame.add(cartButton);
 
-        JButton saveOrderButton = new JButton("Checkout and Save Order");
+        JButton saveOrderButton = new JButton("注文を確認して保存");
         saveOrderButton.setBounds(20, 140, 200, 30);
         frame.add(saveOrderButton);
 
-        JButton historyButton = new JButton("View Order History");
+        JButton historyButton = new JButton("注文履歴を見る");
         historyButton.setBounds(20, 180, 200, 30);
         frame.add(historyButton);
 
-        // 添加商品到购物车
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cartManager.addProduct("Product 1", 10.0);
-                JOptionPane.showMessageDialog(frame, "Product 1 added to cart!");
-            }
+        addButton.addActionListener(e -> {
+            cartManager.addProduct("商品1", 10.0);
+            JOptionPane.showMessageDialog(frame, "商品1がカートに追加されました！");
         });
 
-        // 查看购物车内容
-        cartButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String cartDetails = cartManager.viewCart();
-                JOptionPane.showMessageDialog(frame, cartDetails);
-            }
+        cartButton.addActionListener(e -> {
+            String cartDetails = cartManager.viewCart();
+            JOptionPane.showMessageDialog(frame, cartDetails);
         });
 
-        // 保存订单到数据库
-        saveOrderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String cartDetails = cartManager.viewCart();
-                double totalPrice = cartManager.calculateTotalPrice();
-                databaseManager.saveOrder(cartDetails, totalPrice);
-                JOptionPane.showMessageDialog(frame, "Order saved successfully!");
-                cartManager.clearCart(); // 清空购物车
-            }
+        saveOrderButton.addActionListener(e -> {
+            String cartDetails = cartManager.viewCart();
+            double totalPrice = cartManager.calculateTotalPrice();
+            databaseManager.saveOrder(cartDetails, totalPrice);
+            JOptionPane.showMessageDialog(frame, "注文が正常に保存されました！");
+            cartManager.clearCart();
         });
 
-        // 查看订单历史
-        historyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String orderHistory = databaseManager.viewOrderHistory();
-                JOptionPane.showMessageDialog(frame, orderHistory);
-            }
+        historyButton.addActionListener(e -> {
+            String orderHistory = databaseManager.viewOrderHistory();
+            JOptionPane.showMessageDialog(frame, orderHistory);
         });
     }
 
