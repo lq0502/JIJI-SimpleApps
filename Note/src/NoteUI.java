@@ -1,18 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class NoteUI extends JFrame {
-    private JList<String> noteList;
-    private DefaultListModel<String> listModel;
-    private NoteDatabase db;
+    private final JList<String> noteList;
+    private final DefaultListModel<String> listModel;
+    private final NoteDatabase db;
 
     public NoteUI() {
         db = new NoteDatabase();
 
-        // 创建UI
         setTitle("メモ帳");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,6 +22,12 @@ public class NoteUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(noteList);
         add(scrollPane, BorderLayout.CENTER);
 
+        JPanel buttonPanel = getjPanel();
+
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private JPanel getjPanel() {
         JButton addButton = new JButton("add");
         JButton editButton = new JButton("edit");
         JButton deleteButton = new JButton("delete");
@@ -37,8 +40,7 @@ public class NoteUI extends JFrame {
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
-
-        add(buttonPanel, BorderLayout.SOUTH);
+        return buttonPanel;
     }
 
     private void loadNotes() {

@@ -1,12 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EditNoteUI extends JDialog {
-    private JTextField noteField;
-    private String originalNote;
-    private NoteUI parent;
+    private final JTextField noteField;
+    private final String originalNote;
+    private final NoteUI parent;
 
     public EditNoteUI(NoteUI parent, String existingNote) {
         this.parent = parent;
