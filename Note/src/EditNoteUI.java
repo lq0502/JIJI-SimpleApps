@@ -12,7 +12,7 @@ public class EditNoteUI extends JDialog {
         this.parent = parent;
         this.originalNote = existingNote;
 
-        setTitle(existingNote == null ? "添加记事本条目" : "编辑记事本条目");
+        setTitle(existingNote == null ? "add" : "edit");
         setSize(300, 150);
         setLayout(new BorderLayout());
         setLocationRelativeTo(parent);
@@ -20,7 +20,7 @@ public class EditNoteUI extends JDialog {
         noteField = new JTextField(existingNote != null ? existingNote : "");
         add(noteField, BorderLayout.CENTER);
 
-        JButton saveButton = new JButton("保存");
+        JButton saveButton = new JButton("save");
         saveButton.addActionListener(e -> saveNote());
         add(saveButton, BorderLayout.SOUTH);
     }
@@ -31,7 +31,7 @@ public class EditNoteUI extends JDialog {
             parent.saveOrUpdate(originalNote, newNote);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "请输入有效的条目");
+            JOptionPane.showMessageDialog(this, "Error");
         }
     }
 }

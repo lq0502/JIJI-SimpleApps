@@ -13,7 +13,7 @@ public class NoteUI extends JFrame {
         db = new NoteDatabase();
 
         // 创建UI
-        setTitle("记事本应用");
+        setTitle("メモ帳");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -25,9 +25,9 @@ public class NoteUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(noteList);
         add(scrollPane, BorderLayout.CENTER);
 
-        JButton addButton = new JButton("添加");
-        JButton editButton = new JButton("编辑");
-        JButton deleteButton = new JButton("删除");
+        JButton addButton = new JButton("add");
+        JButton editButton = new JButton("edit");
+        JButton deleteButton = new JButton("delete");
 
         addButton.addActionListener(e -> openEditDialog(null));
         editButton.addActionListener(e -> openEditDialog(noteList.getSelectedValue()));
