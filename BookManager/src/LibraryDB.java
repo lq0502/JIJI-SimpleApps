@@ -1,8 +1,9 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.logging.*;
 
 public class LibraryDB {
+
+    private static final Logger logger = Logger.getLogger(LibraryDB.class.getName());
 
     public static Connection connect() {
         Connection conn = null;
@@ -11,7 +12,7 @@ public class LibraryDB {
             conn = DriverManager.getConnection(url);
             System.out.println("Connected to the database.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Database connection failed", e);
         }
         return conn;
     }
@@ -27,7 +28,7 @@ public class LibraryDB {
             stmt.execute(sql);
             System.out.println("Table created or exists already.");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Failed to initialize the database", e);
         }
     }
 }
