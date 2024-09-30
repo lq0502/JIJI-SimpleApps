@@ -1,26 +1,10 @@
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.logging.*;
 
 public class Database {
+    private static final Logger logger = Logger.getLogger(Database.class.getName());
     private static final String URL = "jdbc:sqlite:calculations.db";
-
-    static {
-        try (Connection conn = DriverManager.getConnection(URL)) {
-            if (conn != null) {
-                String createTableSQL = "CREATE TABLE IF NOT EXISTS history (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "num1 REAL," +
-                        "operator TEXT," +
-                        "num2 REAL," +
-                        "result REAL)";
-                Statement stmt = conn.createStatement();
-                stmt.execute(createTableSQL);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void saveCalculation(double num1, String operator, double num2, double result) {
         String insertSQL = "INSERT INTO history(num1, operator, num2, result) VALUES(?, ?, ?, ?)";
@@ -32,7 +16,7 @@ public class Database {
             pstmt.setDouble(4, result);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "SQL Exception occurred", e);
         }
     }
 
@@ -52,18 +36,19 @@ public class Database {
                 history.add(num1 + " " + operator + " " + num2 + " = " + result);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "SQL Exception occurred", e);
         }
 
         return history;
     }
     public static void clearHistory() {
+        // 删除所有记录，清空表，DELETE 是正常的。OKOKOKOK
         String deleteSQL = "DELETE FROM history";
         try (Connection conn = DriverManager.getConnection(URL);
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(deleteSQL);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "SQL Exception occurred", e);
         }
     }
 

@@ -3,7 +3,7 @@ import java.awt.*;
 import java.util.List;
 
 public class HistoryUI extends JFrame {
-    private JTextArea historyArea;
+    private final JTextArea historyArea;
 
     public HistoryUI() {
         setTitle("計算履歴");

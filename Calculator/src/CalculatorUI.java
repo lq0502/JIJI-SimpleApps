@@ -1,22 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Random;
 
 public class CalculatorUI extends JFrame {
     private JTextField displayField;
     private JPanel buttonPanel;
-    private HistoryUI historyUI;
-    private StringBuilder currentInput = new StringBuilder();
+    private final HistoryUI historyUI;
+    private final StringBuilder currentInput = new StringBuilder();
     private String operator = "";
     private double num1 = 0;
     private boolean isOperatorPressed = false;
 
-    private String[] emoticons = {"(•‿•)", "(◕‿◕)", "(¬‿¬)"};
+    private final String[] emoticons = {"(•‿•)", "(◕‿◕)", "(¬‿¬)"};
     private Timer emoticonTimer;
     private Timer inactivityTimer;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public CalculatorUI() {
         historyUI = new HistoryUI();
@@ -32,24 +31,22 @@ public class CalculatorUI extends JFrame {
         displayField.setEditable(false);
         displayField.setHorizontalAlignment(JTextField.RIGHT);
         displayField.setFont(new Font("MS Gothic", Font.PLAIN, 30));
-        displayField.setPreferredSize(new Dimension(380, 80));  // 控制显示屏的尺寸
+        displayField.setPreferredSize(new Dimension(380, 80));
         add(displayField, BorderLayout.NORTH);
 
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 4, 5, 5));  // 控制按钮之间的间距
+        buttonPanel.setLayout(new GridLayout(5, 4, 5, 5));
         addButtonsToPanel();
 
         add(buttonPanel, BorderLayout.CENTER);
 
         startEmoticonTimer();
 
-        // 设置用户操作超时后的屏幕保护
         startInactivityTimer();
 
         setVisible(true);
     }
 
-    // 表情滚动的计时器
     private void startEmoticonTimer() {
         emoticonTimer = new Timer(500, e -> {
             String emoticon = emoticons[random.nextInt(emoticons.length)];
@@ -58,15 +55,14 @@ public class CalculatorUI extends JFrame {
         emoticonTimer.start();
     }
 
-    // 用户操作后的超时计时器
     private void startInactivityTimer() {
-        inactivityTimer = new Timer(30000, e -> startEmoticonTimer()); // 30秒无操作后启动颜文字滚动
+        inactivityTimer = new Timer(30000, e -> startEmoticonTimer());
         inactivityTimer.setRepeats(false);
     }
 
     private void resetInactivityTimer() {
         inactivityTimer.restart();
-        emoticonTimer.stop(); // 停止滚动表情
+        emoticonTimer.stop();
     }
 
     private void addButtonsToPanel() {
@@ -80,9 +76,9 @@ public class CalculatorUI extends JFrame {
 
         for (String text : buttons) {
             JButton button = new JButton(text);
-            button.setFont(new Font("MS Gothic", Font.BOLD, 20));  // 调整字体大小
-            button.setPreferredSize(new Dimension(50, 50));  // 控制按钮的尺寸
-            button.setFont(new Font("MS Gothic", Font.PLAIN, 14));// 使用支持日语的字体
+            button.setFont(new Font("MS Gothic", Font.BOLD, 20));
+            button.setPreferredSize(new Dimension(50, 50));
+            button.setFont(new Font("MS Gothic", Font.PLAIN, 14));
             button.addActionListener(new ButtonAction());
             buttonPanel.add(button);
         }
@@ -93,7 +89,6 @@ public class CalculatorUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
 
-            // 每次用户操作时重置计时器并停止表情滚动
             resetInactivityTimer();
 
             switch (command) {
@@ -112,16 +107,14 @@ public class CalculatorUI extends JFrame {
                         num1 = Double.parseDouble(currentInput.toString());
                         operator = command;
                         isOperatorPressed = true;
-                        // 在显示区域显示数字和运算符
-                        displayField.setText(currentInput.toString() + " " + operator);
-                        currentInput.setLength(0);  // 重置输入，准备输入第二个数字
+                        displayField.setText(currentInput + " " + operator);
+                        currentInput.setLength(0);
                     }
                     break;
                 case "=":
                     if (currentInput.length() > 0 && !operator.isEmpty()) {
                         double num2 = Double.parseDouble(currentInput.toString());
                         double result = calculateResult(num1, num2, operator);
-                        // 显示完整表达式和结果
                         displayField.setText(num1 + " " + operator + " " + num2 + " = " + result);
                         Database.saveCalculation(num1, operator, num2, result);
                         currentInput.setLength(0);
@@ -138,7 +131,7 @@ public class CalculatorUI extends JFrame {
                             JOptionPane.YES_NO_OPTION
                     );
                     if (confirmation == JOptionPane.YES_OPTION) {
-                        Database.clearHistory();  // 调用删除历史的数据库方法
+                        Database.clearHistory();
                     }
                     break;
                 default:
@@ -147,7 +140,6 @@ public class CalculatorUI extends JFrame {
                         isOperatorPressed = false;
                     }
                     currentInput.append(command);
-                    // 在每次输入数字或小数点时，更新显示区域
                     displayField.setText(displayField.getText() + command);
             }
         }
