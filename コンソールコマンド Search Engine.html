@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>キングダムカム2 コンソールコマンド検索</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 20px auto; 
+            padding: 20px;
+        }
+        .result-line {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-bottom: 1px solid #444;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .result-line:hover {
+            background-color: #222;
+        }
+        .copy-btn {
+            margin-left: 10px;
+            padding: 6px 14px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .copy-btn:active {
+            background-color: #3d8b40;
+            transform: scale(0.98);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #results {
+            margin-top: 20px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background-color: #1a1a1a;
+        }
+        #searchTerm {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+        }
+        .github-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #000;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .github-btn:hover {
+            background-color: #666;  
+        }
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            filter: grayscale(100%);
+        }
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            display: none;
+            animation: fadeOut 2s forwards;
+        }
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>コンソールコマンド Search Engine</h1>
+        <div class="instructions">
+            <p>コンソールコマンドにアクセスするには キングダム・カムデリヴァランスII　以下の手順に従ってください：</p>
+            <p>デベロッパーモードを有効にする：<br>
+                Steamで キングダム・カムデリヴァランスII あなたのライブラリーで「プロパティ」を選択し、「全般」タブに移動する。<br>
+                起動オプション欄に" -devmode"を入力してメニューを閉じ、通常通りゲームを起動する。<br></p>
+            <p>コンソールにアクセスする：ゲーム中にチルダキー(~)でコンソールを開く。</p>
+            <p>コンソールコマンドを更新中、待ってください。　\(￣︶￣*\)</p>
+        </div>
+        <input type="text" id="searchTerm" placeholder="検索..." onkeyup="searchFile()">
+        <div id="results"></div>
+    </div>
+    <button class="github-btn" onclick="window.open('https://github.com/lq0502', '_blank')">
+        <svg class="github-icon" viewBox="0 0 24 24" width="20" height="20" fill="white">
+            <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.66-.22.66-.48 0-.23-.01-.99-.01-1.79-2.47.46-3-.6-3.18-1.15-.11-.28-.6-1.15-1.02-1.39-.35-.18-.86-.63-.01-.64.8-.01 1.38.73 1.57 1.03.91 1.53 2.37 1.09 2.95.83.09-.66.35-1.09.64-1.34-2.2-.25-4.52-1.1-4.52-4.89 0-1.08.39-1.97 1.03-2.66-.1-.25-.45-1.27.1-2.65 0 0 .83-.27 2.72 1.02a9.52 9.52 0 012.48-.33c.84 0 1.69.11 2.48.33 1.89-1.29 2.72-1.02 2.72-1.02.55 1.38.2 2.4.1 2.65.64.69 1.03 1.58 1.03 2.66 0 3.8-2.32 4.64-4.53 4.88.36.31.69.91.69 1.84 0 1.33-.01 2.4-.01 2.72 0 .27.16.59.67.49A10 10 0 0022 12c0-5.52-4.48-10-10-10z"/>
+        </svg>
+        GitHub
+    </button>
+    <div class="copy-notification" id="copyNotification">コピーしました!</div>
+    <script>
+        const fileContent = `
+wh_sys_nosavepotion = 1 []            これにより、救世主Schnapps Potionを要求することなく手動で保存できます。
+wh_pl_lockpickingshakeoverride = 0 [] これにより、ロックピッキング中に揺れが無効になります。
+wh_pl_lockpickingdof = 50 []          これにより、ドアやチェストのロックを解除しながら、ロックピックの耐久性が拡張されます。
+        `.trim().split('\n');
+        function searchFile() {
+            const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            const results = searchTerm 
+                ? fileContent.filter(line => line.toLowerCase().includes(searchTerm))
+                : fileContent;
+            
+            displayResults(results);
+        }
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = results.map(line => {
+                const escapedLine = line.trim().replace(/'/g, "\\'");
+                return `
+                    <div class="result-line">
+                        <span>${line.trim()}</span>
+                        <button class="copy-btn" onclick="handleCopy('${escapedLine}')">Copy</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        function handleCopy(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    const notification = document.getElementById('copyNotification');
+                    notification.style.display = 'block';
+                    notification.style.opacity = 1;
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                        notification.style.opacity = 0;
+                    }, 2000);
+                })
+                .catch(err => console.error('Copy failed:', err));
+        }
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = results.map(line => {
+                const escapedLine = line.trim().replace(/'/g, "\\'");
+                const mainValue = line.split('[')[0].trim();
+                return `
+            <div class="result-line">
+                <span>${line.trim()} <span style="color: gray;"></span></span>
+                <button class="copy-btn" onclick="handleCopy('${mainValue}')">Copy</button>
+            </div>
+        `;
+            }).join('');
+        }
+        searchFile();
+    </script>
+</body>
+</html>
