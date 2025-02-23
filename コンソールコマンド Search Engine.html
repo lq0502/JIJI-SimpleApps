@@ -124,9 +124,13 @@
     <div class="copy-notification" id="copyNotification">コピーしました!</div>
     <script>
         const fileContent = `
-wh_sys_nosavepotion = 1 []            これにより、救世主Schnapps Potionを要求することなく手動で保存できます。
-wh_pl_lockpickingshakeoverride = 0 [] これにより、ロックピッキング中に揺れが無効になります。
-wh_pl_lockpickingdof = 50 []          これにより、ドアやチェストのロックを解除しながら、ロックピックの耐久性が拡張されます。
+wh_sys_nosavepotion = 1 []                      救世主Schnapps Potionを要求することなく手動で保存できます。
+wh_pl_lockpickingshakeoverride = 0 []           ロックピッキング中に揺れが無効になります。
+wh_pl_lockpickingdof = 50 []                    ドアやチェストのロックを解除しながら、ロックピックの耐久性が拡張されます。
+wh_cheat_addMoney = [金額]                       指定された金額をインベントリに追加する。
+wh_cheat_addItem = [アイテムコードと数量]         指定されたアイテムと数量をインベントリに追加します。
+wh_cheat_setHealth = [値]                       体力を指定された値に設定する。
+wh_cheat_setExperience = [値]                    経験点を指定された値に設定する。
         `.trim().split('\n');
         function searchFile() {
             const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
